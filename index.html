@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Trait Spin Averages</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gradient-to-br from-blue-950 via-blue-900 to-black min-h-screen flex items-center justify-center p-6">
+  <div class="bg-blue-900/40 backdrop-blur-xl border border-orange-400/40 rounded-2xl shadow-2xl w-full max-w-3xl p-8 text-orange-100">
+    <h1 class="text-3xl font-bold mb-6 text-center text-orange-400">🎴 Trait Spin Averages</h1>
+
+    <div class="overflow-x-auto">
+      <table class="w-full border-collapse">
+        <thead>
+          <tr class="bg-orange-400/20 text-orange-200">
+            <th class="p-3 border border-orange-400/30">Trait</th>
+            <th class="p-3 border border-orange-400/30">Chance (%)</th>
+            <th class="p-3 border border-orange-400/30">Expected Spins</th>
+            <th class="p-3 border border-orange-400/30">Median Spins</th>
+          </tr>
+        </thead>
+        <tbody id="rarityTable" class="text-center text-sm"></tbody>
+      </table>
+    </div>
+
+    <div class="mt-2 text-center text-orange-300 text-xs">
+      Median is how many rolls it would take to have a 50% chance of getting the trait.
+    </div>
+
+    <div class="mt-6 text-center text-orange-300 text-xs">Made by Limpan</div>
+  </div>
+
+  <script>
+    const rarities = [
+      {name: "Brawler", chance: 11},
+      {name: "Reinforce 1", chance: 11},
+      {name: "Reinforce 2", chance: 9},
+      {name: "Brawler 2", chance: 9},
+      {name: "Prodigy 1", chance: 8},
+      {name: "Reinforce 3", chance: 8},
+      {name: "Brawler 3", chance: 8},
+      {name: "Prodigy 2", chance: 7},
+      {name: "Prodigy 3", chance: 6},
+      {name: "Blitz 1", chance: 6},
+      {name: "Blitz 2", chance: 5},
+      {name: "Blitz 3", chance: 4.5},
+      {name: "Midas", chance: 3},
+      {name: "Slayer", chance: 2.5},
+      {name: "Almighty", chance: 1},
+      {name: "Divine", chance: 0.7},
+      {name: "Monarch", chance: 0.3},
+    ];
+
+    function renderTable() {
+      const tbody = document.querySelector("#rarityTable");
+      tbody.innerHTML = "";
+      rarities.forEach(r => {
+        const p = r.chance / 100;
+        const expectedSpins = (1 / p).toFixed(2);
+        const medianSpins = Math.ceil(Math.log(0.5) / Math.log(1 - p));
+        const row = `<tr class='hover:bg-orange-400/10 transition'>
+          <td class='p-3 border border-orange-400/20'>${r.name}</td>
+          <td class='p-3 border border-orange-400/20'>${r.chance}%</td>
+          <td class='p-3 border border-orange-400/20'>${expectedSpins}</td>
+          <td class='p-3 border border-orange-400/20'>${medianSpins}</td>
+        </tr>`;
+        tbody.innerHTML += row;
+      });
+    }
+
+    renderTable();
+  </script>
+</body>
+</html>
